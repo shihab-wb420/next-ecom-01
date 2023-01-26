@@ -1,5 +1,7 @@
 import {useContext, useState,useEffect  } from "react"
 import {ProductsContext } from "../context/ProductsContext"
+import axios from "axios"
+
 
 const Checkout = ()=>{
   const {cartProducts} = useContext(ProductsContext)
@@ -9,13 +11,15 @@ const Checkout = ()=>{
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
   
+  console.log("cartProducts from localStorage: ",cartProducts)
+  
   const getCartProductsInfo = async()=>{
-    const uniqueIds = [...new Set(cartProducts)]
   try{
+    const uniqueIds = [...new Set(cartProducts)]
     
-    let data = await fetch(`/api/products?ids=${uniqueIds.join(",")}`);
-     data = await data.json();
+    let {data} = await axios.get(`/api/products?ids=${uniqueIds.join(",")}`);
      setCartProductsInfo(data)
+     console.log("axios: api data: ",data)
    }catch(err){
      console.log("Checkout page:- ",err)
    }
@@ -27,7 +31,7 @@ const Checkout = ()=>{
   console.log("cartprod", cartProductsInfo) 
     
   //decrease product quantity 
-  const  lessOfThisProduct =()=>{
+  const lessOfThisProduct =()=>{
     
   }
   // increase product quantity 
@@ -40,7 +44,7 @@ const Checkout = ()=>{
   let subtotal = 0;
   if (cartProducts?.length) {
     for (let id of cartProducts) {
-      const price = cartProductsInfo.find(p => p._id === id)?.price || 0;
+      const price = cartProductsInfo?.find(p => p._id === id)?.price || 0;
       subtotal += price;
     }
   }
@@ -48,7 +52,7 @@ const Checkout = ()=>{
   
   return(
      <div>
-     {/*  {!cartProductsInfo && (
+       {!cartProductsInfo && (
        <div>No products in your cart...</div>
        )}
        {
@@ -106,8 +110,8 @@ const Checkout = ()=>{
            Pay ${total}
          </button>
        </form>
-       */}
-       <div> hello/</div>
+      
+      
      </div>
     );
 }

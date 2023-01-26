@@ -48,7 +48,7 @@ const Checkout = ()=>{
   
   return(
      <div>
-       {!cartProductsInfo && (
+     {/*  {!cartProductsInfo && (
        <div>No products in your cart...</div>
        )}
        {
@@ -106,6 +106,8 @@ const Checkout = ()=>{
            Pay ${total}
          </button>
        </form>
+       */}
+       <div> hello/</div>
      </div>
     );
 }

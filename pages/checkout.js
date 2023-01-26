@@ -24,7 +24,7 @@ const Checkout = ()=>{
   useEffect(()=>{
     getCartProductsInfo()
   },[cartProducts])
-  //console.log("cartprod", cartProductsInfo) 
+  console.log("cartprod", cartProductsInfo) 
     
   //decrease product quantity 
   const  lessOfThisProduct =()=>{
@@ -48,7 +48,7 @@ const Checkout = ()=>{
   
   return(
      <div>
-       {cartProductsInfo.length <= 0 && (
+       {!cartProductsInfo && (
        <div>No products in your cart...</div>
        )}
        {

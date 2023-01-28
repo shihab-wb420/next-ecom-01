@@ -12,14 +12,16 @@ const Checkout = ()=>{
   const [email,setEmail] = useState('');
   
   console.log("cartProducts from localStorage: ",cartProducts)
-  
+   
   const getCartProductsInfo = async()=>{
   try{
-    const uniqueIds = [...new Set(cartProducts)]
-    
-    let {data} = await axios.get(`/api/products?ids=${uniqueIds.join(",")}`);
-     setCartProductsInfo(data)
-     console.log("axios: api data: ",data)
+    if(cartProducts){
+     const uniqueIds = [...new Set(cartProducts)]
+      console.log("uniqueIds: ",uniqueIds)
+      let {data} = await axios.get(`/api/products?ids=${uniqueIds.join(",")}`);
+      setCartProductsInfo(data)
+      console.log("axios: api data: ",data)
+    }
    }catch(err){
      console.log("Checkout page:- ",err)
    }
@@ -43,11 +45,16 @@ const Checkout = ()=>{
   const deliveryPrice = 5;
   let subtotal = 0;
   if (cartProducts?.length) {
-    for (let id of cartProducts) {
-      const price = cartProductsInfo?.find(p => p._id === id)?.price || 0;
-      subtotal += price;
-    }
+    try{
+     for (let id of cartProducts) {
+       const price = cartProductsInfo?.find(p => p._id === id)?.price || 0;
+       subtotal += price;
+     }
+   }catch(err){
+      console.log("subtotal error:",err)
   }
+ }
+  
   const total = subtotal + deliveryPrice;
   
   return(
@@ -113,7 +120,7 @@ const Checkout = ()=>{
       
       
      </div>
-    );
+ );
 }
 
-export default Checkout
+export default Checkout 
